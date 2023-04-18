@@ -11,23 +11,27 @@ var newSchema = new Schema({
   'city': { type: String },
   'email': { type: String },
   'mobile': { type: String },
-  'subscription_Start': { type: Date, default: Date.now },
-  'subscription_End': { type: Date},
-  'subscription': { type: String},  
-  'createdAt': { type: Date, default: Date.now }, 
+  'trialDays': { type: String },
+  'packageStatus': { type: String, default: "pending" },
+  'isTrial': { type: Boolean, default: true },
+  'subscription_Start': { type: Date },
+  'subscription_End': { type: Date },
+  "DayLeft": {type:Number},
+  'subscription': { type: String, default: "pending" },
+  'createdAt': { type: Date, default: Date.now },
   'updatedAt': { type: Date, default: Date.now }
 });
 
-newSchema.pre('save', function(next){
+newSchema.pre('save', function (next) {
   this.updatedAt = Date.now();
   next();
 });
 
-newSchema.pre('update', function() {
+newSchema.pre('update', function () {
   this.update({}, { $set: { updatedAt: Date.now() } });
 });
 
-newSchema.pre('findOneAndUpdate', function() {
+newSchema.pre('findOneAndUpdate', function () {
   this.update({}, { $set: { updatedAt: Date.now() } });
 });
 
